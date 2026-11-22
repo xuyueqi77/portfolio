@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- ==================== 页面基础信息 ==================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 页面标题：把“你的名字”换成自己的姓名或昵称即可 -->
+  <title>你的名字 · 个人作品集</title>
+  <meta name="description" content="个人作品集，包含个人定位、技能栈、项目经历、获奖经历与联系方式。">
+  <!-- 浏览器标签页图标：使用空数据地址，避免请求不存在的 favicon 文件 -->
+  <link rel="icon" href="data:,">
+  <!-- 移动端浏览器地址栏主题色：这里是首屏默认值，切换主题后由 JS 从 CSS 变量同步 -->
+  <meta name="theme-color" content="#ffffff">
+  <!-- 样式表：全站样式统一放在 css/style.css -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- 标记 JS 已启用：滚动淡入动画只在此类存在时生效，避免禁用 JS 时内容被隐藏 -->
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+
+<body id="top">
+  <!-- 主题初始化：在页面渲染前读取本地记录或系统偏好，避免刷新时闪白 -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('portfolio-theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved ? saved === 'dark' : prefersDark) {
+          document.body.classList.add('dark');
+        }
+      } catch (error) {
+        /* 隐私模式下 localStorage 不可用时，保持默认亮色 */
+      }
+    })();
+  </script>
+
+  <!-- ==================== 主题切换按钮（固定在右上角） ==================== -->
+  <button class="theme-toggle" id="theme-toggle" type="button"
+          aria-label="切换到暗色主题" aria-pressed="false" title="切换主题">
+    <!-- 月亮：亮色模式下显示，表示“切换到暗色” -->
+    <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/>
+    </svg>
+    <!-- 太阳：暗色模式下显示，表示“切换到亮色” -->
+    <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/>
+    </svg>
+  </button>
+
+  <!-- ==================== 页面主体 ==================== -->
+  <main>
+    <!-- ==================== Hero：首页主视觉区 ==================== -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero__inner">
+        <!-- 头像：圆形，120px；图片放在 assets 目录，替换同名文件即可换图 -->
+        <img
+          class="hero__avatar"
+          src="assets/avatar.jpg"
+          alt="个人头像"
+          width="120"
+          height="120"
+          decoding="async"
+        >
+
+        <!-- 姓名 / 昵称：整页唯一的一级标题 -->
+        <h1 class="hero__name" id="hero-title">你的名字</h1>
+
+        <!-- 一句话定位：说明专业背景与求职方向 -->
+        <p class="hero__tagline">信息管理与信息系统专业 · 前端方向</p>
+
+        <!-- 三个技能 / 兴趣标签 -->
+        <ul class="hero__tags" aria-label="技能标签">
+          <li class="tag">#前端开发</li>
+          <li class="tag">#数据分析</li>
+          <li class="tag">#竞赛爱好者</li>
+        </ul>
+
+        <!-- 两个按钮：点击后平滑滚动到下方对应区块 -->
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#projects">查看项目</a>
+          <a class="btn btn--ghost" href="#contact">联系我</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 技能栈区块 ==================== -->
+    <!-- 技能数据不写在 HTML 里，由 js/main.js 顶部的 SKILLS 数组渲染，增删技能只改 JS -->
+    <section class="skills reveal" id="skills" aria-labelledby="skills-title">
+      <div class="container">
+        <!-- 区块标题 + 副标题 -->
+        <header class="section-head">
+          <h2 class="section-head__title" id="skills-title">技能栈</h2>
+          <p class="section-head__subtitle">日常使用的技术、工具与能力，按类别整理。</p>
+        </header>
+
+        <!-- 技能分组容器：每组卡片由 JS 生成后插入这里 -->
+        <div class="skills__grid" id="skills-grid"></div>
+
+        <!-- 关闭 JS 时的兜底提示 -->
+        <noscript>
+          <p class="section-noscript">请开启 JavaScript 以查看技能列表。</p>
+        </noscript>
+      </div>
+    </section>
+
+    <!-- ==================== 项目经历区块 ==================== -->
+    <!-- 项目卡片使用静态 HTML，保证内容可被搜索引擎直接抓取；增删项目复制或删除对应 article 即可 -->
+    <section class="projects reveal" id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <!-- 区块标题 + 副标题 -->
+        <header class="section-head">
+          <h2 class="section-head__title" id="projects-title">项目经历</h2>
+          <p class="section-head__subtitle">课程项目与日常实践，记录从需求到落地的过程。</p>
+        </header>
+
+        <!--
+          有真实仓库链接时，把卡片底部的「源码待补充」span 换成：
+          <a class="project-card__link" href="真实链接" target="_blank" rel="noopener">查看项目源码<span aria-hidden="true">→</span></a>
+        -->
+        <div class="projects__grid">
+          <!-- 项目一 -->
+          <article class="project-card">
+            <h3 class="project-card__name">校运会数据分析工具</h3>
+            <p class="project-card__tech">Python · Pandas · Matplotlib · Flask</p>
+            <p class="project-card__desc">面向校运会成绩汇总场景，将各学院报名表、检录表和终点成绩统一清洗，生成奖牌榜与项目纪录看板。</p>
+
+            <div class="project-card__block">
+              <h4 class="project-card__label">我的职责</h4>
+              <ul class="project-card__list">
+                <li>负责成绩表清洗与异常值校验规则</li>
+                <li>实现奖牌榜、项目纪录等 6 类图表</li>
+                <li>搭建 Flask 接口与 Excel 导出功能</li>
+              </ul>
+            </div>
+
+            <div class="project-card__block">
+              <h4 class="project-card__label">亮点成果</h4>
+              <ul class="project-card__list">
+                <li>处理 12 个学院、2300+ 条成绩记录</li>
+                <li>人工统计耗时从 3 小时缩短至 10 分钟</li>
+                <li>工具被下一届校运会继续沿用</li>
+              </ul>
+            </div>
+
+            <span class="project-card__link project-card__link--placeholder">源码待补充</span>
+          </article>
+
+          <!-- 项目二 -->
+          <article class="project-card">
+            <h3 class="project-card__name">校园二手交易平台</h3>
+            <p class="project-card__tech">Vue 3 · Vite · Element Plus · MySQL</p>
+            <p class="project-card__desc">面向校内学生的闲置发布与检索平台，支持分类浏览、关键词搜索、商品详情和站内留言。</p>
+
+            <div class="project-card__block">
+              <h4 class="project-card__label">我的职责</h4>
+              <ul class="project-card__list">
+                <li>负责商品列表、详情与发布表单页面</li>
+                <li>封装分页、筛选等 4 个通用组件</li>
+                <li>设计商品表结构与常用查询索引</li>
+              </ul>
+            </div>
+
+            <div class="project-card__block">
+              <h4 class="project-card__label">亮点成果</h4>
+              <ul class="project-card__list">
+                <li>完成 8 个核心页面并用于课程演示</li>
+                <li>商品检索平均响应时间低于 200ms</li>
+                <li>课程项目验收获评优秀</li>
+              </ul>
+            </div>
+
+            <span class="project-card__link project-card__link--placeholder">源码待补充</span>
+          </article>
+
+          <!-- 项目三 -->
+          <article class="project-card">
+            <h3 class="project-card__name">AI 短剧脚本生成脚本</h3>
+            <p class="project-card__tech">Python · OpenAI API · Prompt Engineering</p>
+            <p class="project-card__desc">根据题材、人物设定与单集时长生成分集大纲和对白草稿，帮助社团把短剧创作流程标准化。</p>
+
+            <div class="project-card__block">
+              <h4 class="project-card__label">我的职责</h4>
+              <ul class="project-card__list">
+                <li>设计结构化 Prompt 与输出模板</li>
+                <li>编写批量生成与敏感词过滤脚本</li>
+                <li>整理角色设定 JSON 数据规范</li>
+              </ul>
+            </div>
+
+            <div class="project-card__block">
+              <h4 class="project-card__label">亮点成果</h4>
+              <ul class="project-card__list">
+                <li>单集初稿产出时间由 4 小时降至 15 分钟</li>
+                <li>累计生成 30+ 集脚本</li>
+                <li>其中 12 集被社团实际采用</li>
+              </ul>
+            </div>
+
+            <span class="project-card__link project-card__link--placeholder">源码待补充</span>
+          </article>
+        </div>
+
+        <!-- 关闭 JS 时的兜底提示已不再需要，项目内容本身就是静态可见的 -->
+      </div>
+    </section>
+
+    <!-- ==================== 获奖经历区块 ==================== -->
+    <!-- 获奖数据由 js/main.js 顶部的 AWARDS 数组渲染，增删奖项只改 JS -->
+    <section class="awards reveal" id="awards" aria-labelledby="awards-title">
+      <div class="container">
+        <!-- 区块标题 + 副标题 -->
+        <header class="section-head">
+          <h2 class="section-head__title" id="awards-title">获奖经历</h2>
+          <p class="section-head__subtitle">按时间倒序整理，记录每一次比赛与阶段性成果。</p>
+        </header>
+
+        <!-- 时间线容器：条目由 JS 生成后插入这里 -->
+        <ol class="timeline" id="awards-list"></ol>
+
+        <!-- 关闭 JS 时的兜底提示 -->
+        <noscript>
+          <p class="section-noscript">请开启 JavaScript 以查看获奖经历。</p>
+        </noscript>
+      </div>
+    </section>
+
+    <!-- ==================== 联系方式区块 ==================== -->
+    <section class="contact reveal" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <!-- 区块标题 + 副标题 -->
+        <header class="section-head">
+          <h2 class="section-head__title" id="contact-title">联系方式</h2>
+          <p class="section-head__subtitle">欢迎交流项目合作、实习机会或前端学习心得。</p>
+        </header>
+
+        <!-- 联系方式列表：邮箱 / 代码仓库 / 博客 / 微信 -->
+        <ul class="contact-list">
+          <!-- 邮箱 -->
+          <li class="contact-item">
+            <span class="contact-item__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                <path d="m3 7 9 6 9-6"/>
+              </svg>
+            </span>
+            <div class="contact-item__body">
+              <p class="contact-item__label">邮箱</p>
+              <a class="contact-item__value contact-item__value--link" href="mailto:hello@example.com">hello@example.com</a>
+            </div>
+          </li>
+
+          <!-- GitHub / Gitee -->
+          <li class="contact-item">
+            <span class="contact-item__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="6" cy="6" r="2.4"/>
+                <circle cx="6" cy="18" r="2.4"/>
+                <circle cx="18" cy="8" r="2.4"/>
+                <path d="M6 8.4v7.2"/>
+                <path d="M8.4 6H13a3 3 0 0 1 3 3"/>
+              </svg>
+            </span>
+            <div class="contact-item__body">
+              <p class="contact-item__label">GitHub / Gitee</p>
+              <p class="contact-item__links">
+                <a href="https://github.com/yourname" target="_blank" rel="noopener">github.com/yourname</a>
+                <span aria-hidden="true">/</span>
+                <a href="https://gitee.com/yourname" target="_blank" rel="noopener">gitee.com/yourname</a>
+              </p>
+            </div>
+          </li>
+
+          <!-- CSDN -->
+          <li class="contact-item">
+            <span class="contact-item__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 3h8l4 4v14H6z"/>
+                <path d="M14 3v4h4"/>
+                <path d="M9 12h6M9 16h6"/>
+              </svg>
+            </span>
+            <div class="contact-item__body">
+              <p class="contact-item__label">CSDN</p>
+              <p class="contact-item__links">
+                <a href="https://blog.csdn.net/yourname" target="_blank" rel="noopener">blog.csdn.net/yourname</a>
+              </p>
+            </div>
+          </li>
+
+          <!-- 微信：暂时只展示文字，可替换为二维码图片 -->
+          <li class="contact-item">
+            <span class="contact-item__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H8l-4 3v-6.2A8.5 8.5 0 1 1 21 11.5Z"/>
+                <path d="M8.5 12h.01M12.5 12h.01M16.5 12h.01"/>
+              </svg>
+            </span>
+            <div class="contact-item__body">
+              <p class="contact-item__label">微信</p>
+              <p class="contact-item__value">your_wechat</p>
+              <p class="contact-item__note">添加请备注“作品集”</p>
+            </div>
+          </li>
+        </ul>
+
+        <!-- 简历下载：assets/resume.pdf 上传后，删除 is-disabled 与 aria-disabled 即可恢复 -->
+        <div class="contact__resume">
+          <a class="btn btn--primary is-disabled" href="assets/resume.pdf" download
+             aria-disabled="true" data-resume>
+            下载简历
+          </a>
+          <p class="contact__resume-hint" id="resume-hint" aria-live="polite">简历文件待上传，上传后可恢复下载。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 页脚：版权信息 + 个人语录 ==================== -->
+  <footer class="site-footer reveal">
+    <div class="container">
+      <p class="site-footer__copy">
+        © <span id="copyright-year">2026</span> 你的名字 · Built with
+        <span class="site-footer__heart" aria-hidden="true">❤</span>
+      </p>
+      <p class="site-footer__quote">“把每一件小事做好，就是最好的作品。”</p>
+    </div>
+  </footer>
+
+  <!-- ==================== 回到顶部（滚动一段距离后显示） ==================== -->
+  <a class="back-to-top" id="back-to-top" href="#top" aria-label="回到顶部" title="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5"/>
+      <path d="m5 12 7-7 7 7"/>
+    </svg>
+  </a>
+
+  <!-- ==================== 脚本 ==================== -->
+  <!-- defer：等 HTML 解析完成后再执行，避免脚本拿不到 DOM 元素 -->
+  <script src="js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,1096 @@
+/* =========================================================
+   1. 主题变量
+   想换主色 / 字号 / 间距，只改 :root 里的值即可，不用动下面代码。
+   ========================================================= */
+:root {
+  color-scheme: light;             /* 原生控件、滚动条使用亮色 */
+
+  /* ---- 颜色 ---- */
+  --color-primary: #1e3a8a;        /* 主色：深蓝，可换成墨绿等 */
+  --color-primary-dark: #172554;   /* 主色加深：按钮悬停用 */
+  --color-primary-soft: #eef2ff;   /* 主色浅底：次级按钮悬停用 */
+  --color-accent: #1e3a8a;         /* 链接、圆点等强调色 */
+  --color-accent-hover: #172554;   /* 强调色悬停 */
+  --color-on-primary: #ffffff;     /* 主色实心块上的文字色 */
+
+  --color-text: #111827;           /* 正文主色 */
+  --color-text-secondary: #374151; /* 项目简介等次级正文 */
+  --color-text-muted: #6b7280;     /* 次要文字、标签文字 */
+  --color-bg: #ffffff;             /* 页面背景 */
+  --color-surface: #f5f7fa;        /* 浅灰底：标签、头像底色 */
+  --color-border: #e5e7eb;         /* 分隔线、描边 */
+  --color-border-strong: #d1d5db;  /* 时间线竖线等需要更明显的线条 */
+
+  /* ---- 阴影 ---- */
+  --shadow-avatar: 0 12px 32px rgba(17, 24, 39, 0.1);
+  --shadow-card: 0 1px 2px rgba(17, 24, 39, 0.04);
+  --shadow-card-hover: 0 14px 32px rgba(17, 24, 39, 0.12);
+  --shadow-btn: 0 10px 24px rgba(30, 58, 138, 0.24);
+  --shadow-toggle: 0 6px 18px rgba(17, 24, 39, 0.12);
+
+  /* ---- 奖项等级标签 ---- */
+  --tag-national-bg: var(--color-primary);
+  --tag-national-text: #ffffff;
+  --tag-provincial-bg: #c7d7f0;
+  --tag-provincial-text: #172554;
+  --tag-school-bg: #e8edf5;
+  --tag-school-text: #475569;
+
+  /* ---- 字体 ---- */
+  /* 系统字体栈，不加载任何外网字体 */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+
+  /* ---- 布局尺寸 ---- */
+  --container-max: 1100px;         /* 居中容器最大宽度 */
+  --avatar-size: 120px;            /* 头像直径 */
+  --anchor-offset: 5rem;           /* 锚点跳转时为顶部固定元素预留的距离 */
+
+  /* ---- 间距 ---- */
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+
+  /* ---- 字号（clamp 让字号随视口自动缩放） ---- */
+  --fs-name: clamp(2.25rem, 6vw, 3.5rem);
+  --fs-tagline: clamp(1rem, 2.2vw, 1.25rem);
+  --fs-tag: 0.875rem;
+  --fs-btn: 0.95rem;
+
+  /* ---- 行高与字间距 ---- */
+  --leading-base: 1.7;             /* 正文 */
+  --leading-snug: 1.5;             /* 列表、标签、按钮 */
+  --leading-tight: 1.3;            /* 大标题 */
+  --tracking-tight: 0.02em;        /* 标题微字距 */
+  --tracking-wide: 0.06em;         /* 小标签字距 */
+
+  /* ---- 其他 ---- */
+  --radius-pill: 999px;            /* 胶囊圆角 */
+  --radius-card: 16px;             /* 技能卡片圆角 */
+  --transition: 0.2s ease;         /* 统一过渡时长 */
+}
+
+/* =========================================================
+   1.1 暗色主题
+   切换逻辑给 body 加上 .dark 类，这里集中覆写所有颜色变量，
+   页面其它样式只引用变量，因此不会出现漏改的区块。
+   ========================================================= */
+body.dark {
+  color-scheme: dark;
+
+  --color-primary: #2f4f9e;        /* 实心按钮、深色块：保证白字对比度 */
+  --color-primary-dark: #24407f;
+  --color-primary-soft: #1b2a4a;
+  --color-accent: #9cb8f7;         /* 暗底上的链接与强调色 */
+  --color-accent-hover: #c3d4fb;
+
+  --color-text: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #a8b3c7;
+  --color-bg: #0f172a;
+  --color-surface: #1a2337;
+  --color-border: #2c3a52;
+  --color-border-strong: #3a4b68;
+
+  --shadow-avatar: 0 12px 32px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 14px 32px rgba(0, 0, 0, 0.45);
+  --shadow-btn: 0 10px 24px rgba(0, 0, 0, 0.4);
+  --shadow-toggle: 0 6px 18px rgba(0, 0, 0, 0.45);
+
+  --tag-national-bg: #3557a7;
+  --tag-national-text: #ffffff;
+  --tag-provincial-bg: #2b3c5f;
+  --tag-provincial-text: #d6e2fb;
+  --tag-school-bg: #24304a;
+  --tag-school-text: #c3cede;
+}
+
+/* =========================================================
+   2. 基础重置与页面默认样式
+   ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* 锚点跳转时平滑滚动；JS 中也有兼容处理 */
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: var(--leading-base);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;             /* 兜底：禁止横向滚动条 */
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 键盘聚焦时显示清晰的焦点框，方便无障碍操作 */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* 固定主题按钮会出现在页面顶部，锚点跳转时预留安全距离 */
+main > section[id] {
+  scroll-margin-top: var(--anchor-offset);
+}
+
+/* =========================================================
+   3. 通用居中容器
+   宽度不超过 1100px，左右自动留白，小屏左右各留 24px
+   ========================================================= */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+/* =========================================================
+   4. Hero 主视觉区
+   占满首屏高度，内容水平 + 垂直居中
+   ========================================================= */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--space-xl);
+  text-align: center;
+}
+
+/* Hero 内部纵向排列，所有元素居中 */
+.hero__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---- 头像 ---- */
+.hero__avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  margin-bottom: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;             /* 裁成圆形 */
+  background-color: var(--color-surface);
+  object-fit: cover;              /* 非正方形图片也不会变形 */
+  box-shadow: var(--shadow-avatar);
+}
+
+/* ---- 姓名 / 昵称 ---- */
+.hero__name {
+  margin-bottom: var(--space-xs);
+  font-size: var(--fs-name);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* ---- 一句话定位 ---- */
+.hero__tagline {
+  margin-bottom: var(--space-md);
+  color: var(--color-text-muted);
+  font-size: var(--fs-tagline);
+}
+
+/* ---- 标签列表 ---- */
+.hero__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.tag {
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--fs-tag);
+  white-space: nowrap;            /* 单个标签不折行 */
+}
+
+/* ---- 按钮组 ---- */
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 132px;
+  padding: 0.8rem 1.6rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-family: inherit;
+  font-size: var(--fs-btn);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+/* 主按钮：实心主色 */
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-btn);
+}
+
+/* 禁用状态：用于简历等文件尚未就绪的按钮，点击不跳转 */
+.btn.is-disabled,
+.btn.is-disabled:hover {
+  border-color: var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 次按钮：描边样式，悬停时填浅色底 */
+.btn--ghost {
+  border-color: var(--color-accent);
+  background-color: transparent;
+  color: var(--color-accent);
+}
+
+.btn--ghost:hover {
+  background-color: var(--color-primary-soft);
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   5. 技能栈区块
+   桌面端三列分组卡片，中屏两列，小屏单列
+   ========================================================= */
+.skills {
+  padding-block: var(--space-xl);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+/* ---- 区块标题与副标题 ---- */
+.section-head {
+  margin-bottom: var(--space-lg);
+  text-align: center;
+}
+
+.section-head__title {
+  margin-bottom: var(--space-xs);
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.section-head__subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+/* ---- 分组网格：默认三列，每列等宽 ---- */
+.skills__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+/* ---- 单个分组卡片 ---- */
+.skill-group {
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-bg);
+}
+
+/* 分组标题前的纯 CSS 小圆点，不依赖图标库 */
+.skill-group__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-sm);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.skill-group__title::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+}
+
+/* ---- 标签列表：自动换行，避免出现大片空白 ---- */
+.skill-group__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ---- 技能标签卡片（chip） ---- */
+.chip {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--fs-tag);
+  line-height: var(--leading-snug);
+  white-space: nowrap;
+  /* 只过渡位移与颜色，不触发布局，性能友好 */
+  transition:
+    transform var(--transition),
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+/* 悬停：颜色加深 + 上浮 2px；触屏设备不触发，避免 hover 粘住 */
+@media (hover: hover) {
+  .chip:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-accent);
+    background-color: var(--color-primary-soft);
+    color: var(--color-accent);
+  }
+}
+
+/* 关闭 JS 时的提示文字 */
+.section-noscript {
+  margin-top: var(--space-md);
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* 中屏：两列；第三组占满整行，避免右侧留下大片空白 */
+@media (max-width: 900px) {
+  .skills__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .skill-group:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* 小屏：恢复单列，标签按行自动换行 */
+@media (max-width: 600px) {
+  .skills__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skill-group:last-child {
+    grid-column: auto;
+  }
+}
+
+/* =========================================================
+   6. 项目经历区块
+   桌面端两列、手机端单列；卡片等高等宽
+   ========================================================= */
+.projects {
+  padding-block: var(--space-xl);
+  background-color: var(--color-bg);
+}
+
+/* 两列等宽网格，行内卡片默认拉伸到相同高度 */
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+  align-items: stretch;
+}
+
+/* 单张项目卡片：flex 纵向布局，方便把链接压到底部 */
+.project-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+/* 悬停：轻微上浮 + 阴影加深；触屏设备不触发 */
+@media (hover: hover) {
+  .project-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+  }
+}
+
+/* ---- 项目名称 ---- */
+.project-card__name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: var(--leading-snug);
+}
+
+/* ---- 技术栈说明 ---- */
+.project-card__tech {
+  margin-top: 0.35rem;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+/* ---- 项目简介：最多 3 行，避免内容过长撑高卡片 ---- */
+.project-card__desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  margin-top: var(--space-sm);
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+}
+
+/* ---- 职责 / 成果 分组 ---- */
+.project-card__block {
+  margin-top: var(--space-md);
+}
+
+/* 最后一组与底部链接之间保留最小间距 */
+.project-card__block:last-of-type {
+  margin-bottom: var(--space-md);
+}
+
+.project-card__label {
+  margin-bottom: 0.35rem;
+  color: var(--color-accent);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+}
+
+.project-card__list {
+  display: grid;
+  gap: 0.3rem;
+  padding-left: 1.1rem;
+  list-style: disc;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+.project-card__list li::marker {
+  color: var(--color-accent);
+}
+
+/* ---- 仓库链接：margin-top: auto 让每张卡片的链接都贴底对齐 ---- */
+.project-card__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  margin-top: auto;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color var(--transition);
+}
+
+.project-card__link:hover {
+  color: var(--color-accent-hover);
+}
+
+/* 源码暂未填写时显示普通文本，避免出现无效链接 */
+.project-card__link--placeholder,
+.project-card__link--placeholder:hover {
+  color: var(--color-text-muted);
+  cursor: default;
+}
+
+/* =========================================================
+   7. 获奖经历区块（时间线）
+   桌面端：日期 | 竖线圆点 | 内容
+   手机端：左侧竖线，右侧日期在上、内容在下
+   ========================================================= */
+.awards {
+  padding-block: var(--space-xl);
+  background-color: var(--color-surface);
+}
+
+/* 时间线列表：限制阅读宽度并居中 */
+.timeline {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+/* 单条获奖记录：三列网格 */
+.timeline__item {
+  display: grid;
+  grid-template-columns: 96px 24px minmax(0, 1fr);
+  padding-bottom: var(--space-lg);
+}
+
+.timeline__item:last-child {
+  padding-bottom: 0;
+}
+
+/* ---- 左列：获奖时间 ---- */
+.timeline__date {
+  padding-top: 0.1rem;
+  padding-right: var(--space-md);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: var(--leading-snug);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ---- 中列：竖线与圆点 ---- */
+.timeline__axis {
+  position: relative;
+}
+
+/* 竖线：向下延伸一个条目间距，保证首尾相接 */
+.timeline__axis::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: calc(-1 * var(--space-lg));
+  left: 50%;
+  width: 2px;
+  background-color: var(--color-border-strong);
+  transform: translateX(-50%);
+}
+
+/* 最后一条：竖线在圆点处收尾，不再向下延伸 */
+.timeline__item:last-child .timeline__axis::before {
+  bottom: auto;
+  height: calc(0.5rem + 6px);
+}
+
+/* 圆点：位置与日期、标题的第一行垂直居中对齐 */
+.timeline__axis::after {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--color-bg);
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  transform: translateX(-50%);
+}
+
+/* ---- 右列：奖项内容 ---- */
+.timeline__content {
+  min-width: 0;
+  padding-left: var(--space-md);
+}
+
+.timeline__name {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: var(--leading-snug);
+}
+
+.timeline__organizer {
+  margin-top: 0.2rem;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+/* ---- 奖项等级标签：同一蓝色系，深浅区分层级 ---- */
+.level-tag {
+  display: inline-block;
+  margin-top: var(--space-xs);
+  padding: 0.1rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  white-space: nowrap;
+}
+
+/* 国家级：最深，实心主色 */
+.level-national {
+  background-color: var(--tag-national-bg);
+  color: var(--tag-national-text);
+}
+
+/* 省级：中等，浅蓝底 + 深蓝字 */
+.level-provincial {
+  background-color: var(--tag-provincial-bg);
+  color: var(--tag-provincial-text);
+}
+
+/* 校级：最浅，灰蓝底 + 深灰蓝字 */
+.level-school {
+  background-color: var(--tag-school-bg);
+  color: var(--tag-school-text);
+}
+
+/* =========================================================
+   8. 联系方式区块
+   ========================================================= */
+.contact {
+  padding-block: var(--space-xl);
+  background-color: var(--color-bg);
+}
+
+/* 两列联系方式卡片，限制宽度并居中 */
+.contact-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm);
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-bg);
+}
+
+/* 图标底圆：纯内联 SVG，不依赖图标库 */
+.contact-item__icon {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: var(--color-primary-soft);
+  color: var(--color-accent);
+}
+
+.contact-item__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.contact-item__body {
+  min-width: 0;
+}
+
+.contact-item__label {
+  margin-bottom: 0.15rem;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.contact-item__value,
+.contact-item__links {
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  line-height: var(--leading-snug);
+  overflow-wrap: anywhere;
+}
+
+.contact-item__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.4rem;
+  color: var(--color-text-muted);
+}
+
+.contact-item__value--link,
+.contact-item__links a {
+  color: var(--color-accent);
+  transition: color var(--transition);
+}
+
+.contact-item__value--link:hover,
+.contact-item__links a:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+.contact-item__note {
+  margin-top: 0.2rem;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+/* 简历下载：按钮 + 状态提示 */
+.contact__resume {
+  margin-top: var(--space-lg);
+  text-align: center;
+}
+
+.contact__resume-hint {
+  margin-top: var(--space-xs);
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+/* =========================================================
+   9. 页脚
+   ========================================================= */
+.site-footer {
+  padding-block: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  text-align: center;
+}
+
+.site-footer__copy {
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.site-footer__heart {
+  color: var(--color-accent);
+}
+
+.site-footer__quote {
+  margin-top: var(--space-xs);
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  font-style: italic;
+}
+
+/* =========================================================
+   10. 主题切换按钮（固定在右上角）
+   ========================================================= */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background-color: var(--color-bg);
+  color: var(--color-accent);
+  box-shadow: var(--shadow-toggle);
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.theme-toggle:active {
+  transform: scale(0.94);
+}
+
+/* 两个图标叠在同一格，通过透明度与旋转过渡切换 */
+.theme-toggle__icon {
+  grid-area: 1 / 1;
+  width: 20px;
+  height: 20px;
+  transition:
+    opacity 0.2s ease,
+    transform 0.3s ease;
+}
+
+.theme-toggle__icon--sun {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.6);
+}
+
+body.dark .theme-toggle__icon--moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.6);
+}
+
+body.dark .theme-toggle__icon--sun {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+/* =========================================================
+   11. 滚动淡入
+   仅当 html 上有 .js 类时隐藏初始状态，避免禁用 JS 时内容不可见
+   ========================================================= */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.45s ease-out,
+    transform 0.45s ease-out;
+}
+
+/* =========================================================
+   12. 回到顶部
+   默认隐藏，页面滚动后由 JS 添加 .is-visible 显示
+   ========================================================= */
+.back-to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background-color: var(--color-bg);
+  color: var(--color-accent);
+  box-shadow: var(--shadow-toggle);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.back-to-top:active {
+  transform: scale(0.94);
+}
+
+.back-to-top svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* =========================================================
+   13. 响应式：宽度小于 768px 时整体缩小字号与间距
+   ========================================================= */
+@media (max-width: 767px) {
+  :root {
+    --space-md: 1.25rem;
+    --space-lg: 1.75rem;
+    --space-xl: 2.75rem;
+
+    --fs-name: 2rem;
+    --fs-tagline: 0.95rem;
+    --fs-tag: 0.8125rem;
+    --fs-btn: 0.9rem;
+  }
+
+  .container {
+    padding-inline: 20px;
+  }
+
+  /* 技能区块：跟随全站节奏缩小上下留白 */
+  .skills {
+    padding-block: var(--space-lg);
+  }
+
+  .section-head {
+    margin-bottom: var(--space-md);
+  }
+
+  .section-head__subtitle {
+    font-size: 0.9rem;
+  }
+
+  /* 项目区块：缩小留白，卡片改为单列 */
+  .projects {
+    padding-block: var(--space-lg);
+  }
+
+  .projects__grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* 获奖区块：缩小留白；时间移到内容上方，竖线保留在左侧 */
+  .awards {
+    padding-block: var(--space-lg);
+  }
+
+  .timeline__item {
+    grid-template-columns: 20px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    padding-bottom: var(--space-md);
+  }
+
+  .timeline__date {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 0 0 0.25rem var(--space-md);
+    text-align: left;
+  }
+
+  .timeline__axis {
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
+
+  .timeline__content {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  /* 手机端条目间距变小，竖线同步缩短，保持首尾相接 */
+  .timeline__axis::before {
+    bottom: calc(-1 * var(--space-md));
+  }
+
+  /* 联系方式：单列，简历按钮限制宽度 */
+  .contact {
+    padding-block: var(--space-lg);
+  }
+
+  .contact-list {
+    grid-template-columns: 1fr;
+  }
+
+  .contact__resume .btn {
+    max-width: 280px;
+  }
+
+  /* 页脚与主题按钮在小屏收紧 */
+  .site-footer {
+    padding-block: var(--space-md);
+  }
+
+  .theme-toggle {
+    top: 14px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .back-to-top {
+    right: 14px;
+    bottom: 14px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .hero {
+    padding-block: var(--space-lg);
+  }
+
+  .hero__avatar {
+    margin-bottom: var(--space-md);
+  }
+
+  /* 小屏按钮改为等宽竖排，视觉更整齐，也不会撑出横向滚动 */
+  .hero__actions {
+    width: 100%;
+    max-width: 280px;
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   14. 无障碍：用户系统开启“减少动态效果”时，关掉动画
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* 滚动淡入直接显示最终状态，不再隐藏等待观察器 */
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
